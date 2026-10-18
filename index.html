@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Meet the Hackathon Runners team and explore the ideas we build together.">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+	<title>Our Team</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="supabase-config.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+	<script src="script.js" defer></script>
+</head>
+<body>
+	<header class="site-header">
+		<div class="site-header-inner">
+			<a class="brand" id="site-name-header" href="#top">Our Team</a>
+			<nav aria-label="Main navigation">
+				<a href="#about">About</a>
+				<a href="#projects">Projects</a>
+				<a href="#team">The team</a>
+			</nav>
+			<div class="header-actions">
+				<div class="theme-setting">
+					<label class="theme-toggle" title="Toggle dark theme">
+						<input id="theme-toggle" type="checkbox" role="switch" aria-label="Toggle dark theme">
+						<span class="theme-control" aria-hidden="true">
+							<span class="theme-sun">☼</span>
+							<span class="theme-moon">☾</span>
+							<span class="theme-knob"></span>
+						</span>
+					</label>
+				</div>
+				<button class="admin-trigger" id="admin-trigger" type="button" aria-haspopup="dialog" aria-controls="admin-dialog">
+					Admin <span aria-hidden="true">↗</span>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<dialog class="admin-dialog" id="admin-dialog" aria-labelledby="admin-title">
+		<section class="admin-view" id="admin-login-view">
+			<div class="admin-dialog-heading">
+				<div>
+					<p class="eyebrow">Admin area</p>
+					<h2 id="admin-title">Admin sign in</h2>
+				</div>
+				<button class="dialog-close" type="button" aria-label="Close admin panel">&times;</button>
+			</div>
+			<p class="prototype-note" id="admin-login-note">Sign in with your admin username and password.</p>
+			<form id="admin-login-form">
+				<label for="admin-username">Admin username</label>
+				<input id="admin-username" name="username" type="text" autocomplete="username" required>
+				<label for="admin-password">Password</label>
+				<input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+				<button class="button admin-submit" type="submit">Continue</button>
+				<p class="admin-status" id="admin-login-status" aria-live="polite"></p>
+			</form>
+		</section>
+
+		<section class="admin-view" id="admin-panel-view" aria-labelledby="admin-panel-title" hidden>
+			<div class="admin-dialog-heading">
+				<div>
+					<p class="eyebrow">Team management</p>
+					<h2 id="admin-panel-title">Team profiles</h2>
+				</div>
+				<div class="admin-heading-actions">
+					<button class="admin-quiet-button" id="admin-sign-out" type="button">Sign out</button>
+					<button class="dialog-close" type="button" aria-label="Close admin panel">&times;</button>
+				</div>
+			</div>
+			<p class="prototype-note">Edits are local drafts until deployed. Published changes are stored in Supabase and protected by row-level security.</p>
+			<section class="site-identity-settings" aria-labelledby="site-identity-title">
+				<div class="site-identity-heading">
+					<h3 id="site-identity-title">Website identity</h3>
+					<p>Set the name and appearance shown on the site.</p>
+				</div>
+				<form class="site-identity-form" id="site-identity-form">
+					<label for="site-name-input">Website name</label>
+					<input id="site-name-input" name="name" type="text" maxlength="40" required>
+					<label for="site-name-font">Name font</label>
+					<select id="site-name-font" name="font">
+						<option value="serif">Georgia Serif</option>
+						<option value="trebuchet">Trebuchet</option>
+						<option value="sans">Arial Sans Serif</option>
+						<option value="mono">Courier Monospace</option>
+					</select>
+					<label for="site-name-size">Name size <output id="site-name-size-value" for="site-name-size">22 px</output></label>
+					<input id="site-name-size" name="size" type="range" min="16" max="40" step="1" value="22">
+					<button class="button admin-submit" type="submit">Save website identity</button>
+					<p class="identity-status" id="identity-status" aria-live="polite"></p>
+				</form>
+			</section>
+			<section class="admin-credentials-settings" aria-labelledby="admin-credentials-title">
+				<div class="site-identity-heading">
+					<h3 id="admin-credentials-title">Admin password</h3>
+					<p>The admin username is fixed to onkarbsawant11@gmail.com. Update the password for your authenticated account here.</p>
+				</div>
+				<form class="admin-credentials-form" id="admin-credentials-form">
+					<label for="admin-current-password">Current password</label>
+					<input id="admin-current-password" name="currentPassword" type="password" autocomplete="current-password" required>
+					<label for="admin-new-password">New password <span>(8+ characters, upper/lowercase, and a digit)</span></label>
+					<input id="admin-new-password" name="newPassword" type="password" autocomplete="new-password" minlength="8" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}" title="Use at least 8 characters with a lowercase letter, uppercase letter, and digit." required>
+					<label for="admin-confirm-password">Confirm new password</label>
+					<input id="admin-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}" title="Use at least 8 characters with a lowercase letter, uppercase letter, and digit." required>
+					<button class="button admin-submit" type="submit">Update password</button>
+					<p class="admin-status" id="admin-credentials-status" aria-live="polite"></p>
+				</form>
+			</section>
+			<div class="profile-manager">
+				<div class="profile-list-column">
+					<div class="profile-list-heading">
+						<h3>Profiles</h3>
+						<span id="profile-count">0</span>
+					</div>
+					<div class="admin-profile-list" id="admin-profile-list"></div>
+				</div>
+				<form class="profile-form" id="profile-form">
+					<h3 id="profile-form-title">Add a profile</h3>
+					<input id="profile-id" name="id" type="hidden">
+					<label for="profile-name">Name</label>
+					<input id="profile-name" name="name" type="text" autocomplete="name" required>
+					<label for="profile-role">Role</label>
+					<input id="profile-role" name="role" type="text" required>
+					<label for="profile-branch">Branch</label>
+					<input id="profile-branch" name="branch" type="text" required>
+					<label for="profile-email">Email</label>
+					<input id="profile-email" name="email" type="email" autocomplete="email" required>
+					<label for="profile-linkedin">LinkedIn profile link <span>(optional)</span></label>
+					<input id="profile-linkedin" name="linkedin" type="url" autocomplete="url" placeholder="https://www.linkedin.com/in/username">
+					<label for="profile-photo">Photo</label>
+					<input id="profile-photo" name="photo" type="file" accept="image/*">
+					<p class="field-hint">Choose an image file. Existing photo stays when left empty while editing.</p>
+					<div class="profile-form-actions">
+						<button class="button admin-submit" id="profile-save" type="submit">Add profile</button>
+						<button class="admin-quiet-button" id="profile-cancel" type="button" hidden>Cancel edit</button>
+					</div>
+					<p class="admin-status" id="admin-status" aria-live="polite"></p>
+				</form>
+			</div>
+			<section class="project-management" aria-labelledby="project-management-title">
+				<div class="profile-list-heading">
+					<h3 id="project-management-title">Projects</h3>
+					<span id="project-count">0</span>
+				</div>
+				<div class="project-manager-grid">
+					<div class="admin-project-list" id="admin-project-list"></div>
+					<form class="project-form" id="project-form">
+						<h3 id="project-form-title">Add a project</h3>
+						<input id="project-id" name="id" type="hidden">
+						<label for="project-name">Project name</label>
+						<input id="project-name" name="name" type="text" required>
+						<label for="project-problem">Problem statement</label>
+						<textarea id="project-problem" name="problem" rows="4" required></textarea>
+						<label for="project-link">Project link <span>(optional)</span></label>
+						<input id="project-link" name="link" type="url" placeholder="https://example.com">
+						<label for="project-solution">Solution <span>(optional)</span></label>
+						<textarea id="project-solution" name="solution" rows="3"></textarea>
+						<div class="profile-form-actions">
+							<button class="button admin-submit" id="project-save" type="submit">Add project</button>
+							<button class="admin-quiet-button" id="project-cancel" type="button" hidden>Cancel edit</button>
+						</div>
+						<p class="admin-status" id="project-status" aria-live="polite"></p>
+					</form>
+				</div>
+			</section>
+			<section class="text-section-management" aria-labelledby="text-section-management-title">
+				<div class="profile-list-heading">
+					<h3 id="text-section-management-title">Landing-page text</h3>
+					<span id="text-section-count">0</span>
+				</div>
+				<p class="field-hint">Add any number of text sections. They appear on the landing page after deployment.</p>
+				<div class="text-manager-grid">
+					<div class="admin-text-section-list" id="admin-text-section-list"></div>
+					<form class="text-section-form" id="text-section-form">
+						<h3 id="text-section-form-title">Add a text section</h3>
+						<input id="text-section-id" name="id" type="hidden">
+						<label for="text-section-title">Heading</label>
+						<input id="text-section-title" name="title" type="text" required>
+						<label for="text-section-body">Text</label>
+						<textarea id="text-section-body" name="body" rows="5" required></textarea>
+						<label for="text-section-layout">Layout</label>
+						<select id="text-section-layout" name="layout">
+							<option value="editorial">Editorial</option>
+							<option value="centered">Centered</option>
+							<option value="quote">Quote highlight</option>
+						</select>
+						<div class="profile-form-actions">
+							<button class="button admin-submit" id="text-section-save" type="submit">Add text section</button>
+							<button class="admin-quiet-button" id="text-section-cancel" type="button" hidden>Cancel edit</button>
+						</div>
+						<p class="admin-status" id="text-section-status" aria-live="polite"></p>
+					</form>
+				</div>
+			</section>
+			<div class="deploy-row">
+				<p id="deploy-status" aria-live="polite">Changes are drafts until deployed.</p>
+				<button class="button deploy-button" id="deploy-profiles" type="button">Deploy changes</button>
+			</div>
+		</section>
+	</dialog>
+
+	<main id="top">
+		<section class="intro" aria-labelledby="intro-title">
+			<img class="intro-image" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2200&q=85" alt="A creative team collaborating around a table">
+			<div class="intro-shade" aria-hidden="true"></div>
+			<div class="intro-content">
+				<p class="eyebrow">Ideas in motion <span>·</span> Built together</p>
+				<h1 id="intro-title">Together, we make<br>what's next<span class="title-period">.</span></h1>
+				<p class="intro-copy">We bring curious minds together to turn ambitious ideas into things people can use.</p>
+				<div class="hero-actions">
+					<a class="button" href="#projects">Explore our work <span aria-hidden="true">↘</span></a>
+					<a class="hero-text-link" href="#team">Meet the people <span aria-hidden="true">↓</span></a>
+				</div>
+			</div>
+			<div class="intro-caption"><span>One team, many perspectives</span><span>01 / 03</span></div>
+		</section>
+
+		<section class="about section" id="about" aria-labelledby="about-title">
+			<div class="about-label">
+				<p class="eyebrow"><span>01</span> / The collective</p>
+				<p class="about-aside">Curiosity is our<br>starting point.</p>
+			</div>
+			<div class="about-copy">
+				<h2 id="about-title">Better ideas happen when different minds <em>move as one.</em></h2>
+				<p>From the first sketch to the final build, we pair thoughtful collaboration with a bias for making. Meet the crew, then explore what we’re working on.</p>
+			</div>
+		</section>
+
+		<div class="landing-text-sections" id="landing-text-sections" aria-live="polite"></div>
+
+		<section class="projects section" id="projects" aria-labelledby="projects-title" hidden>
+			<div class="section-heading">
+				<div>
+					<p class="eyebrow"><span>02</span> / Made together</p>
+					<h2 id="projects-title">Ideas, in the wild<span class="title-period">.</span></h2>
+				</div>
+				<p>Small beginnings. Useful outcomes. A few things we’re proud to put into the world.</p>
+			</div>
+			<div class="project-grid" id="project-grid" aria-live="polite"></div>
+		</section>
+
+		<section class="team section" id="team" aria-labelledby="team-title">
+			<div class="section-heading">
+				<div>
+					<p class="eyebrow"><span>03</span> / The people</p>
+					<h2 id="team-title">Good company<span class="title-period">.</span></h2>
+				</div>
+				<p>Different strengths, one shared direction. These are the people behind the projects.</p>
+			</div>
+			<div class="team-grid" id="team-grid" aria-live="polite"></div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<a class="footer-brand" href="#top">Back to top <span aria-hidden="true">↑</span></a>
+		<p><span>Made with care, together.</span> &copy; <span id="current-year"></span> <span id="site-name-footer">Our Team</span></p>
+	</footer>
+</body>
+</html>

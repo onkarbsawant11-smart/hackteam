@@ -1,0 +1,15 @@
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+build/
+.vercel/
+supabase pass.txt
+supabase/.temp/
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+build/
